@@ -98,7 +98,7 @@ if(has_instr_agent)
 	begin 
 	in_cfg[i] = msrv32_test_base :: type_id :: create($sformat("in_cfg[%0d]",i));
 		
-		if(!uvm_config_db #(virtual msrv32_ahb_data_if) :: get (this,"",$sformat("msrv32_ahb_data_if_%0d",i),in_cfg[i].vif))
+		if(!uvm_config_db #(virtual msrv32_ahb_instr_if) :: get (this,"",$sformat("msrv32_ahb_instr_if_%0d",i),in_cfg[i].vif))
 			`uvm_fatal(" VIF CONFIG, WRITE ", "Cannot get() interface vif from uvm_config_db. have you set() it ?")
 		
 		in_cfg[i].is_active = UVM_ACTIVE;
