@@ -148,6 +148,3 @@ if(has_rst_agent)
 	uvm_config_db #(msrv32_env_config)::set(this,"*","msrv32_env_config",m_cfg);
 	env =  msrv32_env::type_id::create("env",this);
 endfunction 
-
-
-endfunction
