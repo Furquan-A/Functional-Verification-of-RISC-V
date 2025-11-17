@@ -7,7 +7,7 @@ class msrv32_irq_monitor extends uvm_monitor;
 	// Properties 
 	
 	msrv32_irq_trans irq_xtn;
-	msrv32_irq_agent_config in_cfg;
+	msrv32_irq_agent_config i_cfg;
 	bit [31:0] instruction;
 	
 	// Interface 
@@ -35,7 +35,7 @@ endfunction
 function msrv32_irq_monitor :: build_phase(uvm_phase phase);
 super.build_phase(phase);
 
-if(!uvm_config_db#(msrv32_irq_agent_config)::get(this,"","msrv32_irq_agent_config"in_cfg))
+if(!uvm_config_db#(msrv32_irq_agent_config)::get(this,"","msrv32_irq_agent_config"i_cfg))
 	`uvm_fatal("irq MONITOR CONFIG","configuration is not yet set() properly")
 	
 	irq_xtn = msrv32_irq_trans::type_id::create("irq_xtn"); // doubt . why dont we use :this: here in this object creation ?
