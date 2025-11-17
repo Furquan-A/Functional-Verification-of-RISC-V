@@ -23,7 +23,7 @@ endclass
 
 class pc_register extends uvm_reg;
 
-	`uvm_object_utils("pc_register)
+	`uvm_object_utils("pc_register")
 	
 	// Properties
 	
