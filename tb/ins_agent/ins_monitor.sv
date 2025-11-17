@@ -42,7 +42,7 @@ if(!uvm_config_db#(msrv32_instr_agent_config)::get(this,"","msrv32_instr_agent_c
 	
 endfunction : build_phase
 
-function msrv32_instr_monitor :: connect_phase(uvm_phase phase)l
+function msrv32_instr_monitor :: connect_phase(uvm_phase phase);
 
 // Functionality 
 

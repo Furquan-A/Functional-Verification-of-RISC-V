@@ -42,7 +42,7 @@ if(!uvm_config_db#(msrv32_data_agent_config)::get(this,"","msrv32_data_agent_con
 	
 endfunction : build_phase
 
-function msrv32_data_monitor :: connect_phase(uvm_phase phase)l
+function msrv32_data_monitor :: connect_phase(uvm_phase phase);
 
 // Functionality 
 
