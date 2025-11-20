@@ -145,6 +145,14 @@ endfunction
 function void  msrv32_test_base :: build_phase(uvm_phase phase );
 	super.build_phase(phase);
 	m_cfg = msrv32_env :: type_id::create("m_cfg");
+	
+	rv32_reg_block_h = msrv32_reg_block :: type_id :: create ("rv32_reg_block_h");
+	rv32_reg_block_h.build();
+	m_cfg.rv32_reg_block_h = this.rv32_reg_block_h; // putting reg block into configuration
+	
+	rv32_reg_block_h_for_pc = msrv32_reg_block_for_pc :: type_id :: create ("msrv32_reg_block_for_pc");
+	rv32_reg_block_h.build();
+	m_cfg.rv32_reg_block_h = this.rv32_reg_block_h_for_pc;
 
 	if(has_data_agent)
 		begin 
