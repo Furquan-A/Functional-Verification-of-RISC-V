@@ -179,3 +179,53 @@ function void  msrv32_test_base :: build_phase(uvm_phase phase );
 		uvm_config_db #(msrv32_env_config)::set(this,"*","msrv32_env_config",m_cfg);
 		env =  msrv32_env::type_id::create("env",this);
 endfunction
+
+function void msrv32_test_base :: report_phase(uvm_phase phase);
+super.report_phase(phase);
+
+endfunction : report_phase
+
+
+// =========================================================================================================================
+
+// Reset Test ==============================================================================================================
+
+class msrv32_reset_test extends msrv32_test_base;
+
+	`uvm_component_utils(msrv32_reset_test)
+	
+	reset_vseq rst_seqh;
+	
+	// Standard Methods 
+	
+	extern function new (string name = "msrv32_reset_test", uvm_component parent);
+	extern function void build_phase(uvm_phase phase );
+	extern task run_phase(uvm_phase phase);
+	
+endclass 
+
+//====================================== new ========================================================
+
+function msrv32_reset_test :: new (string name = "msrv32_reset_test", uvm_component parent);
+super.new(name,parent);
+endfunction 
+
+
+// ========================================== build phase ===========================================
+
+function void msrv32_reset_test :: build_phase(uvm_phase phase);
+	super.build_phase(phase);
+endfunction : bui;d_phase
+
+// =========================================run_phase================================================
+
+task msrv32_reset_test :: run_phase(uvm_phase phase);
+	
+	begin 
+		phase.raise_objection(this);
+		`uvm_info(get_type_name(),"msrv32_reset_test run phase ", UVM_DEBUG)
+		rst_seqh = reset_vseq::type_id::create("rst_seqh",this);
+		rst_seqh.start(env.v_sequencer);
+		phase.drop_objection(this);
+	end 
+endtask  : run_phase	
