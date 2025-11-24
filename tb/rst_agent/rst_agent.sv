@@ -19,11 +19,11 @@ function msrv32_rst_agent ::  new (string name = "msrv32_rst_agent", uvm_compone
 super.new(name,parent);
 endfunction 
 
-// Build phase 
+// ====================================== Build phase ===============================
 function void msrv32_rst_agent :: build_phase(uvm_phase phase);
 super.build_phase(phase);
-if(!uvm_config_db#(msrv32_rst_agent_config)::get(this,"","msrv32_rst_agent_config",r_cfg))
-	`uvm_fatal("INSTR AGENT CONFIG","Cannot get() the in_cfg from the config_db. did you set() it ?")
+	if(!uvm_config_db#(msrv32_rst_agent_config)::get(this,"","msrv32_rst_agent_config",r_cfg))
+		`uvm_fatal("INSTR AGENT CONFIG","Cannot get() the in_cfg from the config_db. did you set() it ?")
 
 	// always create the monitor and then check if the agent is active or passive and then create the driver and sequencer 
 	monh = msrv32_rst_monitor::type_id::create("monh",this);
@@ -36,14 +36,14 @@ if(!uvm_config_db#(msrv32_rst_agent_config)::get(this,"","msrv32_rst_agent_confi
 endfunction 
 
 
-// Connect phase 
+// ============================== Connect phase =====================================
 function void msrv32_rst_agent :: connect_phase(uvm_phase phase);
-super.connect_phase(phase); // optional we dont usualy need to call this in the connect phase 
+	super.connect_phase(phase); // optional we dont usualy need to call this in the connect phase 
 
-if(r_cfg.is_active == UVM_ACTIVE) 
-	begin 
-		drvh.seq_item_port.connect(seqrh.seq_item_export);
-	end 
+	if(r_cfg.is_active == UVM_ACTIVE) 
+		begin 
+			drvh.seq_item_port.connect(seqrh.seq_item_export);
+		end 
 endfunction 
 
 
