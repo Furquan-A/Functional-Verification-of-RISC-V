@@ -228,4 +228,5 @@ task msrv32_reset_test :: run_phase(uvm_phase phase);
 		rst_seqh.start(env.v_sequencer);
 		phase.drop_objection(this);
 	end 
-endtask  : run_phase	
+endtask  : run_phase     	
+
