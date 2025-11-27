@@ -44,12 +44,36 @@ function void msrv32_ref_model :: build_phase(uvm_phase phase);
 	rst_xtn = msrv32_rst_trans::type_id::create("rst_xtn");
 endfunction 
 
-// =================================================== new ================================================
+// ========================================================================================================
 // ========================================= connect_phase ================================================
 
 function void msrv32_ref_model :: connect_phase(uvm_phase phase);
 	super.connect_phase(phase);
 	vif_2 = env_cfg.r_cfg[1].vif; // connect the rst and rst if 
+endfunction
 
+// ========================================================================================================
+// ======================================== run_phase =====================================================
 
+task msrv32_ref_model :: run_phase(uvm_phase phase);
+
+	forever 
+		begin 
+			@(vif_2.rm_cb);
+						fork : F1 
+									begin 
+										get_rst();
+									end 
+									
+									begin 
+										if(rst_xtn.ms_riscv32_mp_rst_in)
+														begin 
+															`uvm_info(get_item_name,"------------------------------ reset in the ref_model ---------------------------", UVM_NONE)
+															$display("RESET CALLED --------------------- %t ", $time);
+															rst_ip();
+														end 
+									end 
+						join_any;
+		end 
+endtask 
 	
