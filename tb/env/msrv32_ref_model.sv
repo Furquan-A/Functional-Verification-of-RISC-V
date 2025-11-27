@@ -61,19 +61,39 @@ task msrv32_ref_model :: run_phase(uvm_phase phase);
 		begin 
 			@(vif_2.rm_cb);
 						fork : F1 
-									begin 
-										get_rst();
-									end 
+							begin 
+								get_rst();
+							end 
 									
+							begin 
+								if(rst_xtn.ms_riscv32_mp_rst_in)
 									begin 
-										if(rst_xtn.ms_riscv32_mp_rst_in)
-														begin 
-															`uvm_info(get_item_name,"------------------------------ reset in the ref_model ---------------------------", UVM_NONE)
-															$display("RESET CALLED --------------------- %t ", $time);
-															rst_ip();
-														end 
+										`uvm_info(get_item_name,"------------------------------ reset in the ref_model ---------------------------", UVM_NONE)
+										$display("RESET CALLED --------------------- %t ", $time);
+										rst_ip();
 									end 
+							end 
 						join_any;
 		end 
 endtask 
 	
+// =========================================================================================================
+// ======================================= get_rst =========================================================
+
+task msrv32_ref_model :: get_rst();
+	begin 
+		rst_xtn.ms_riscv32_mp_rst_in = vif_2.ms_riscv32_mp_rst_in;
+	end
+endtask
+
+// ========================================================================================================
+// ==================================== rst_ip ============================================================
+
+function void msrv32_ref_model :: rst_ip();
+
+	for(int i = 0, i<32 ; i++)
+	register_model.reg_file[i] = 32'b0;
+	register_model.pc = 32'b0;
+	ref2sb_ap.write(register_model);
+	
+endfunction
