@@ -41,7 +41,7 @@ class msrv32_env_config extends uvm_object;
 	int store_mem[bit[31:0]];
 	bit [31:0]pc_reg;
 	
-	extern function new(string name = msrvv32_env_config");
+	extern function new(string name = "msrvv32_env_config");
 
 endclass
 
