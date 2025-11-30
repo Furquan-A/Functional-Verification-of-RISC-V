@@ -12,6 +12,14 @@ class msrv32_vseq_base extends uvm_sequence#(uvm_sequence_item);
 	rand bit[31:0] imm_temp_value;
 	int instr_addr_temp = 0;
 	
+	constraint addr_c { addr_rs_1 inside {[1:31]};
+						addr_rs_2 inside {[1:31]]};
+						addr_rd inside {[1:31]};
+						addr_rs_1 != addr_rs_2;
+						addr_rd != addr_rs_1;
+						addr_rd != addr_rs_2;
+						}
+						
 	
 	// Standard Methods 
 	extern function new(string name = "msrv32_vseq_base");
@@ -19,13 +27,13 @@ class msrv32_vseq_base extends uvm_sequence#(uvm_sequence_item);
 	
 endclass : msrv32_vseq_base
 
-// ============================== new =======================================
+// ============================== new ===================================================
 
 function msrv32_vseq_base :: new (string name = "msrv32_vseq_base");
 	super.new(name);
 endfunction 
 
-// ============================= body =======================================
+// ============================= body ==================================================
 
 task msrv32_vseq_base :: body();
 	$display("----------------> %s", get_full_name());
@@ -43,7 +51,7 @@ task msrv32_vseq_base :: body();
 			r_seqrh[i] = vseqrh.r_seqrh[i]; // connecting the r_seqrh to the r_seqrh of the virtal_sequencer 
 endtask 
 
-// ===========================================================================
+// =====================================================================================
 
 class reset_vseq extends msrv32_vseq_base;
 
@@ -56,13 +64,13 @@ class reset_vseq extends msrv32_vseq_base;
 	
 endclass 
 
-// ========================== new =======================================
+// ========================== new =======================================================
 
 function reset_vseq :: new (string name = "reset_vseq");
 	super.new(name);
 endfunction
 
-// ============================== body ==================================
+// ============================== body =================================================
 
 task reset_vseq :: body();
 
@@ -80,3 +88,26 @@ task reset_vseq :: body();
 	join 
 	
 endtask 
+
+// =====================================================================================
+// ======================== i_type_vseq ================================================
+
+class i_type_vseq extends msrv32_vseq_base;
+
+	`uvm_object_utils(i_type_vseq)
+	
+	i_type_sequence i_instr_seq1,i_instr_seq2;
+	
+	// methods 
+	
+	extern function new(string name = "i_type_vseq");
+	extern task body();
+	
+endclass ; i_type_vseq 
+
+// ========================= new =======================================================
+
+function i_type_vseq :: new (string name = "i_type_vseq");
+	super.new(name);
+endfunction 
+
