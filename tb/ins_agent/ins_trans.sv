@@ -24,3 +24,30 @@ class msrv32_instr_trans extends uvm_sequence_item;
 	int instr_addr_next;
 	
 	rand bit[6:0] opcode;
+	
+	rand bit[6:0] opcode'
+	rand bit[4:0] rd;
+	rand bit[2:0] funct;
+	rand bit[4:0] rs1;
+	rand bit[4:0] rs2
+	rand bit[6:0] funct7;
+	rand bit[31:0] imm;
+	
+	comm cmd;
+	
+	// constraints
+	constraint instruction_type_constraint { if(int'(command)<=9)
+													instr_type ==r_type;
+											else if(int'(command) inside {[18:23],34,37,38}
+													instr_type == i_type;
+											else if (int'(command)>24 && int'(command)<=26)
+													instr_type == s_type;
+											else if (int'(command)>=27 && int'(command)<=32)
+													instr_type == b_type;
+											else if (int'(command)==33)
+													instr_type == j_type;
+											else if (int'(command)==35 || int'(command) ==36)
+													instr_type == u_type;
+											}
+											
+													
