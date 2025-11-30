@@ -2,9 +2,15 @@ class msrv32_vseq_base extends uvm_sequence#(uvm_sequence_item);
 
 	`uvm_object_utils(msrv32_vseq_base)
 	
+	msrv32_instr_sequencer in_seqrh[];
 	msrv32_rst_sequencer r_seqrh[];
 	msrv32_virtual_sequencer vseqrh;
 	msrv32_env_config m_cfg;
+	
+	rand uvm_reg_data_t data1,data2;
+	randc bit[4:0] addr_rs_1,adddr_rs_2,addr_rd;
+	rand bit[31:0] imm_temp_value;
+	int instr_addr_temp = 0;
 	
 	
 	// Standard Methods 
