@@ -74,9 +74,17 @@ class msrv32_instr_trans extends uvm_sequence_item;
 									opcode == 7'b0110011;
 								else if (instr_type ==i_type)
 									opcode inside {7'b0010011,7'b0000011,7'b11--111,7'b1110011};
-								else if (instr_type ==r_type)
-									opcode == 7'b0110011;
-								
+								else if (instr_type ==s_type)
+									opcode == 7'b0100011;
+								else if (instr_type ==b_type)
+									opcode == 7'b1100011;
+								else if (instr_type ==u_type)
+									opcode inside  {7'0110111,7'b0010111};
+								else if (instr_type ==j_type)
+									opcode == 7'b1101111;
+							}
+							
+							
 							
 	
 													
