@@ -111,3 +111,15 @@ function i_type_vseq :: new (string name = "i_type_vseq");
 	super.new(name);
 endfunction 
 
+// ======================== body =======================================================
+
+task i_type_vseq :: body();
+	super.body();
+	
+	if(m_cfg.has_instr_agent)
+		begin 
+			`uvm_info(get_full_name(),$sformatf("has_instr_agent = %0d",m_cfg.has_instr_agent),UVM_LOW)
+			i_instr_seq1 = i_type_sequence :: type_id :: create("i_instr_seq1");
+			i_instr_seq2 =i_type_sequence :: type_id  :: create("i_instr_seq2");
+			if(!this.randomize() with 
+		end 
