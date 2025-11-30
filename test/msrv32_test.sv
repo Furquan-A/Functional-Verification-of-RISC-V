@@ -234,32 +234,32 @@ endtask  : run_phase
 
 // i_type_test (Instructions)
 
-class i_type_test extends msrv32_test_base;
+class msrv32_i_type_instr_test extends msrv32_test_base;
 
-	`uvm_component_utils(i_type_test)
+	`uvm_component_utils(msrv32_i_type_instr_test)
 	
 	i_type_vseq i_seqh;
 	reset_vseq rst_seqh;
 	
 	// Standard Methods 
 	
-	extern function new(string name ="i_type_test",uvm_component parent);
+	extern function new(string name ="msrv32_i_type_instr_test",uvm_component parent);
 	extern function void build_phase(uvm_phase phase);
 	extern task run_phase(uvm_phase phase);
 	extern function void report_phase(uvm_phase phase);
 
-endclass : i_type_test 
+endclass : msrv32_i_type_instr_test 
 
 // =================================== new ============================================================
 
-function i_type_test :: new(string name = "i_type_test",uvm_component parent);
+function msrv32_i_type_instr_test :: new(string name = "msrv32_i_type_instr_test",uvm_component parent);
 	super.new(name,parent);
 endfunction 
 
 // ====================================================================================================
 // ============================= build_phase ==========================================================
 
-function void i_type_test :: build_phase(uvm_phase phase);
+function void msrv32_i_type_instr_test :: build_phase(uvm_phase phase);
 	super.build_phase(phase);
 	
 	// no need to get the config in the build phase of the test class 
@@ -271,3 +271,31 @@ function void i_type_test :: build_phase(uvm_phase phase);
 	
 	uvm_config_db #(msrv32_env_config) :: set(this,"*","msrv32_env_config",super.m_cfg)
 endfunction 
+
+// ============================= run_phase ===========================================================
+
+task msrv32_i_type_instr_test :: run_phase(uvm_phase phase );
+	repeat(1)
+		begin 
+			phase.raise_objection(this);
+			`uvm_info(get_type_name(),"msrv32_i_type_instr_test run phase ", UVM_DEBUG)
+			rst_seqh.start(env.v_sequencer);
+			i_seq.start(env.v_sequencer);
+			phase.drop_objection(this);
+		end 
+endtask : msrv32_i_type_instr_test 
+
+// ==================================================================================================
+
+function void msrv32_i_type_instr_test :: report_phase(uvm_phase);
+
+	if(m_cfg.passed_command.size() != 0)
+		begin 
+			m_cfg.passed_command.delete();
+			m_cfg.passed_command = {ADDI,XORI,ORI,ANDI,SLLI,SRLI,SRAI,SLTI,SLTIU);
+		end 
+	super.report_phase(phase);
+endfunction 
+
+
+
