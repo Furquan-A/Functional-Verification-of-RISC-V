@@ -230,3 +230,44 @@ task msrv32_reset_test :: run_phase(uvm_phase phase);
 	end 
 endtask  : run_phase     	
 
+// ==================================================================================================
+
+// i_type_test (Instructions)
+
+class i_type_test extends msrv32_test_base;
+
+	`uvm_component_utils(i_type_test)
+	
+	i_type_vseq i_seqh;
+	reset_vseq rst_seqh;
+	
+	// Standard Methods 
+	
+	extern function new(string name ="i_type_test",uvm_component parent);
+	extern function void build_phase(uvm_phase phase);
+	extern task run_phase(uvm_phase phase);
+	extern function void report_phase(uvm_phase phase);
+
+endclass : i_type_test 
+
+// =================================== new ============================================================
+
+function i_type_test :: new(string name = "i_type_test",uvm_component parent);
+	super.new(name,parent);
+endfunction 
+
+// ====================================================================================================
+// ============================= build_phase ==========================================================
+
+function void i_type_test :: build_phase(uvm_phase phase);
+	super.build_phase(phase);
+	
+	// no need to get the config in the build phase of the test class 
+	// start creating the objects we created 
+	rst_seqh = reset_vseq :: type_id :: create("rst_seqh");
+	i_seqh = i_type_vseq :: type_id :: create ("i_seqh");
+	
+	super.m_cfg.no_of_instructions = 10;
+	
+	uvm_config_db #(msrv32_env_config) :: set(this,"*","msrv32_env_config",super.m_cfg)
+endfunction 
