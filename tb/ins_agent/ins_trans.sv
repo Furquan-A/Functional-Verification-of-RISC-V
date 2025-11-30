@@ -49,5 +49,34 @@ class msrv32_instr_trans extends uvm_sequence_item;
 											else if (int'(command)==35 || int'(command) ==36)
 													instr_type == u_type;
 											}
-											
+										
+	constraint funct3_value {	if (command inside {add,addi,sub,lb,sb,beq,jalr,ecall,ebreak})
+									funct3 == 3'b000;
+								else if(command inside {sll,slli,lh,sh,bne})
+									funct3 == 3'b010;
+								else if(command inside {sltu,sltiu})
+									funct3 == 3'b011;
+								else if(command inside {xor_op,xori,lbu,blt})
+									funct3 == 3'b100;
+								else if (command inside {srl,sra,srli,srai,lhu,bge})
+									funct3 == 3'b110;
+								else if(command inside {and_op,andi,bgeu})
+									funct3 == 3;b111;
+							}
+							
+	constraint funct7_value {	if(command inside {add,sll,slt,xor_op,or_op,and_op,srl,sltu,srli,slli})
+									funct7 == 'h00;
+								else 
+									soft funct7 == 'h20;
+							}
+							
+	constraint opcode_value {	if(instr_type ==r_type)
+									opcode == 7'b0110011;
+								else if (instr_type ==i_type)
+									opcode inside {7'b0010011,7'b0000011,7'b11--111,7'b1110011};
+								else if (instr_type ==r_type)
+									opcode == 7'b0110011;
+								
+							
+	
 													

@@ -17,7 +17,7 @@ endfunction
 
 // ============================== New ============================================================
 
-function msrv32_instr_seqs_base :: new (string name = "msrv32_instr_seqs_base);
+function msrv32_instr_seqs_base :: new (string name = "msrv32_instr_seqs_base");
 	super.new(name);
 endfunction 
 
