@@ -32,3 +32,32 @@ task msrv32_instr_seqs_base :: body();
 
 endtask 
 	
+// ===============================================================================================
+// i_type_sequence 
+
+class i_type_sequence extends msrv32_instr_seqs_base;
+
+	`uvm_object_utils(i_type_sequence)
+	
+	extern function new(string name = "i_type_sequence");
+	extern task body();
+	
+endclass 
+
+// ========================== new ================================================================
+
+function i_type_sequence :: new(string name = " i_type_sequence");
+	super.new(name);
+endfunction
+
+// ========================== body ===============================================================
+
+task i_type_sequence :: body();
+	super.body();
+	
+	req = msrv32_instr_trans ::type_id :: create("req");
+	
+	repeat(env_cfg.nop) // NOP instruction 
+		begin 
+			start_item(req);
+			assert(req.randomize() with {instr_type == i_type; command == addi; imm == env_cfg.imm_temp_value; rs1 == env_cfg.addr_rs_1; rd = env_cfg.addr_rd; funct3 == 3'b
