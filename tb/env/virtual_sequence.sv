@@ -114,12 +114,28 @@ endfunction
 // ======================== body =======================================================
 
 task i_type_vseq :: body();
-	super.body();
-	
-	if(m_cfg.has_instr_agent)
-		begin 
-			`uvm_info(get_full_name(),$sformatf("has_instr_agent = %0d",m_cfg.has_instr_agent),UVM_LOW)
-			i_instr_seq1 = i_type_sequence :: type_id :: create("i_instr_seq1");
-			i_instr_seq2 =i_type_sequence :: type_id  :: create("i_instr_seq2");
-			if(!this.randomize() with 
-		end 
+
+	begin 
+		super.body();
+		if(m_cfg.has_instr_agent)
+			begin 
+				`uvm_info(get_full_name(),$sformatf("has_instr_agent = %0d",m_cfg.has_instr_agent),UVM_LOW)
+				i_instr_seq1 = i_type_sequence :: type_id :: create("i_instr_seq1");
+				i_instr_seq2 =i_type_sequence :: type_id  :: create("i_instr_seq2");
+				if(!this.randomize() with {data1 inside {[1:100]|; imm_temp_value inside {[1:100]};})
+					`uvm_fatal(get_type_name(), "randomization is not happening")
+					
+				m_cfg.data1=data1;
+				m_cfg.data2 = data2;
+				m_cfg.addr_rs_1 = addr_rs_1;
+				m_cfg.addr_rs_2 = addr_rs_2;
+				m_cfg.addr_rd = addr_rd;
+				m_cfg.imm_temp_value = imm_temp_value;
+			end 
+			
+			fork
+				i_instr_seq1.start(in_seqrh[0]); // dut 
+				i_instr_seq2.start(in_seqrh[1]); // referance model 
+			join 
+	end 
+endtask 
