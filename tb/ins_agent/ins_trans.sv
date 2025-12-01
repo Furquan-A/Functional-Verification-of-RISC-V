@@ -83,7 +83,42 @@ class msrv32_instr_trans extends uvm_sequence_item;
 								else if (instr_type ==j_type)
 									opcode == 7'b1101111;
 							}
-							
+	
+	// Methods 
+	extern function new(string name = "msrv32_instr_trans");
+	extern function void post_randomize();
+	extern function void do_print(uvm_printer printer);
+
+endclass 
+
+// ============================ New ===================================================================
+
+function msrv32_instr_trans :: new (string name = "msrv32_instr_trans");
+	super.new(name);
+endfunction 
+
+// ========================== post_randomize ==========================================================
+
+function void msrv32_instr_trans :: post_randomize();
+
+	if(instr_type == r_type)
+		instruction = {funct7,rs2,rs1,funct3,rd,opcode};
+	else if(instr_type == i_type)
+		if(command inside {slli,srai,srli})
+			instruction = {funct7,imm[4:0],rs1,funct3,rd,opcode};
+		else 
+			instruction = {imm[11:0],rs1,funct3,rd,opcode};
+	else if(instr_type ==s_type)
+		instruction = {imm[11:5],rs2,rs1,funct3,imm[4:0],opcode};
+	else if(instr_type == b_type)
+		instruction = {imm[12],imm[10:5],rs2,rs1,funct3,imm[4:1],imm[11],opcode}
+	else if(instr_type == u_type)
+		instruction = {imm[31:12].rd,opcode};
+	else if(instr_type == j_type)
+		instruction = {imm[20],imm[10:1],imm[11],imm[19:12],rd,opcode};
+	
+endfunction 
+	
 							
 							
 	
