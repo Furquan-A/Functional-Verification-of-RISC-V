@@ -118,6 +118,26 @@ function void msrv32_instr_trans :: post_randomize();
 		instruction = {imm[20],imm[10:1],imm[11],imm[19:12],rd,opcode};
 	
 endfunction 
+
+// ========================== do_print ==================================================================
+
+function void msrv32_instr_trans :: do_print(uvm_printer printer);
+	super.do_print(printer);
+	
+	printer.print_field("opcode",       this.opcode,       7 ,  UVM_BIN);
+	printer.print_field("rd",           this.rd ,          5 ,  UVM_BIN);
+	printer.print_field("funct3",       this.funct3,       3 ,  UVM_BIN);
+	printer.print_field("rs1",          this.rs1 ,         5 ,  UVM_BIN);
+	printer.print_field("rs2",          this.rs2 ,         5 ,  UVM_BIN);
+	printer.print_field(funct7,         this.funct7 ,      7 ,  UVM_BIN);
+	printer.print_field("imm",          this.imm ,         12 , UVM_BIN);
+	printer.print_field("instruction" , this.instruction , 32 , UVM_BIN );
+	printer.print_field("instr_addr" ,  this.instr_addr ,  32 , UVM_DEC);
+	printer.print_field("instruction_type" ,  instr_type.name());
+	printer.print_field("command_type",       command.name());
+	printer.print_field("command in monitor", cmd.name());
+	
+endfunction 
 	
 							
 							
