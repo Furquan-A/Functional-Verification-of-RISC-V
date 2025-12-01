@@ -129,7 +129,7 @@ function void msrv32_instr_trans :: do_print(uvm_printer printer);
 	printer.print_field("funct3",       this.funct3,       3 ,  UVM_BIN);
 	printer.print_field("rs1",          this.rs1 ,         5 ,  UVM_BIN);
 	printer.print_field("rs2",          this.rs2 ,         5 ,  UVM_BIN);
-	printer.print_field("funct7",         this.funct7 ,      7 ,  UVM_BIN);
+	printer.print_field("funct7",         this.funct7 ,    7 ,  UVM_BIN);
 	printer.print_field("imm",          this.imm ,         12 , UVM_BIN);
 	printer.print_field("instruction" , this.instruction , 32 , UVM_BIN );
 	printer.print_field("instr_addr" ,  this.instr_addr ,  32 , UVM_DEC);

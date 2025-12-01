@@ -72,4 +72,16 @@ task i_type_sequence :: body();
 		
 		this.rv32_reg_block_h.reg_file.write(status.env_cfg.addr_rs_1, env_cfg.data1, .path(UVM_BACKDOOR), .map(rv32_reg_block_h.rv32_reg_map), .parent(this));
 		start_item(req);
-		assert(req.randomize() with {instr_type == i_type; command == addi; imm == env_cfg.imm_temp_value; rs1 == env_cfg.addr_rs_1; rd == env_cfg.addr_rd; funct3 == 3'b
+		assert(req.randomize() with {instr_type == i_type; command == addi; imm == env_cfg.imm_temp_value; rs1 == env_cfg.addr_rs_1; rd == env_cfg.addr_rd; funct3 == 3'b00 ; opcode == 7'b0010011;});
+		finish_item(req);
+			`uvm_info(get_full_name(),$sformatf("addi seq : %s\n", req.sprint()),UVM_DEBUG)
+		repeat(env_cfg.nop) // NOP instruction 
+		begin 
+			start_item(req);
+			assert(req.randomize() with {instr_type == i_type; command == addi; rs1 == 0; imm[11:0] == 12'b0; funct3 == 3'b000; opcode == 'b0010011;});
+			finish_item(req);
+				`uvm_info(get_full_name(),"NOP sequence is completed",UVM_DEBUG);
+		end 
+endtask 
+
+// ========================================================================================================
