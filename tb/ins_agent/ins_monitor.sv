@@ -187,6 +187,48 @@ function void msrv32_instr_monitor :: decode_instruction();
 					instr_xtn.imm[4:0]=instruction[11:7];
 					instr_xtn.funct3=instructon[14:12];
 					instr_xtn.imm[11:15]=instruction[31:25];
-					
-
+					`uvm_info(get_full_name(),"S type instructions ", UVM_DEBUG)
+	
+				end 
+	
+	7'b1100011: begin // b type 
+					case(instruction[14:12]) // funct3 
+					3'b000: instr_xtn.cmd=BEQ;
+					3'b001: instr_xtn.cmd=BNE;
+					3'b100: instr_xtn.cmd=BLT;
+					3'b101: instr_xtn.cmd=BGE;
+					3'b110: instr_xtn.cmd=BLTU;
+					3'b111: instr_xtn.cmd=BGEU;
+					endcase
 				
+					instr_xtn.rs2=instruction[24:20];
+					instr_xtn.rs1=instruction[19:15];
+					instr_xtn.imm[12]=instruction[31];
+					instr_xtn.imm[10:5]=instruction[30:25];
+					instr_xtn.imm[4:1]=instruction[11:8];
+					instr_xtn.imm[11]=instruction[7];
+					`uvm_info(get_full_name(),"B type instructions ", UVM_DEBUG)
+					
+				end 
+
+	7'b1100111: begin // JAL type 
+					instr_xtn.cmd=JALR;
+					instr_xtn.rd=instruction[11:7];
+					instr_xtn.rs1=instruction[19:15];
+					instr_xtn.imm[11:0]=instruction[31:20];
+					instr_xtn.funct3=instruction[14:12];
+					`uvm_info(get_full_name(),"I type JALR instructions ", UVM_DEBUG)
+				end 
+	7'b0110111: begin 
+					instr_xtn.cmd=LUI;
+					instr_xtn.rd=instruction[11:7];
+					instr_xtn.imm[31:12]=instruction[31:12];
+					instr_xtn.imm[11:0]=12'b0;
+					`uvm_info(get_full_name(),"I type JALR instructions ", UVM_DEBUG)
+				end 
+	7'b0010111: begin 
+					instr_xtn.cmd = AUIPC;
+					instr_xtn.rd=instruction[11:7];
+					instr_xtn.imm[31:12]=instruction[31:12];
+					instr_xtn.imm[11:0]=2'b0;
+					`uvm_info(get_full_name(),"U type JALR instructions ", UVM_DEBUG)
