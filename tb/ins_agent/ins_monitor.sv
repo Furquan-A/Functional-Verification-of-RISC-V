@@ -246,5 +246,5 @@ function void msrv32_instr_monitor :: decode_instruction();
 	instr_xtn.opcode=instruction[6:0];
 	instr_xtn.instruction=instruction[31:0];
 		`uvm_info(get_full_name(),$sformatf("IN deocde instruction function data %0d is \n %s",instr_xtn.sprint()),UVM_LOW)
-		`uvm_info(get_full_name(),$sformatf("cmd name in monitor %s", instr_xtn.cmd"),UVM_DEBUG)
+		`uvm_info(get_full_name(),$sformatf("cmd name in monitor %s", instr_xtn.cmd),UVM_DEBUG)
 endfunction 
