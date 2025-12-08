@@ -147,7 +147,7 @@ function void msrv32_instr_monitor :: decode_instruction();
 					3'b011: begin 
 								instr_xtn.cmd = SLTU;
 							end
-					endcase 
+				 
 					
 					instr_xtn.rd=instruction[11:7];
 					instr_xtn.rs1=instruction[19:15];
@@ -210,7 +210,16 @@ function void msrv32_instr_monitor :: decode_instruction();
 					`uvm_info(get_full_name(),"B type instructions ", UVM_DEBUG)
 					
 				end 
-
+	7'b1101111: begin 
+					instr_xtn.cmd = JAL;
+					instr_xtn.rd= instruction[11:7];
+					instr_xtn.imm[20]=instruction[31];
+					instr_xtn.imm[10:1]=instruction[30:21];
+					instr_xtn.imm[11]=instruction[20];
+					instr_xtn.imm[19:12]=instruction[19:12];
+					`uvm_info(get_full_name(),"J type instructions ", UVM_DEBUG)
+				end 
+					
 	7'b1100111: begin // JAL type 
 					instr_xtn.cmd=JALR;
 					instr_xtn.rd=instruction[11:7];
@@ -232,3 +241,10 @@ function void msrv32_instr_monitor :: decode_instruction();
 					instr_xtn.imm[31:12]=instruction[31:12];
 					instr_xtn.imm[11:0]=2'b0;
 					`uvm_info(get_full_name(),"U type JALR instructions ", UVM_DEBUG)
+				end 
+	endcase 
+	instr_xtn.opcode=instruction[6:0];
+	instr_xtn.instruction=instruction[31:0];
+		`uvm_info(get_full_name(),$sformatf("IN deocde instruction function data %0d is \n %s",instr_xtn.sprint()),UVM_LOW)
+		`uvm_info(get_full_name(),$sformatf("cmd name in monitor %s", instr_xtn.cmd"),UVM_DEBUG)
+endfunction 
